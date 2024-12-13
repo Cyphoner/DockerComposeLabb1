@@ -1,0 +1,31 @@
+
+
+services:
+  DockerComposeLabb1:
+    build:
+        context: ./DockerComposeLabb1
+        dockerfile: Dockerfile
+    ports: 
+        - "8080:8080"
+        - "8081:8081"
+    networks: 
+        - productnetwork
+    depends_on: 
+        - sqlserver
+    environment:
+        - "Server=SqlServer,1433;Database=User;User Id=sa;Password=Hejsan123!;TrustServerCertificate=True;"
+    
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Hejsan123!
+    ports:
+        - "1433:1433"
+    networks:
+        - productnetwork
+
+networks:
+  productnetwork:
+   
